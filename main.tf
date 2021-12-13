@@ -13,6 +13,25 @@ provider "azurerm" {
 
     features {}
 }
+# Create a resource group
+module "rg" {
+    source = "./modules/rg"
+    name = var.name
+    location = var.location
+}
+
+# Create an Azure IoT Hub
+module "iot_hub" {
+  source = "./modules/iot_hub"
+  resourcegroup = module.rg.resource_group_name
+  location = module.rg.location_id
+}
+
+
+
+
+
+
 /*
 resource "azurerm_resource_group" "IOT" {
   name     = "IOT-resources"
@@ -139,26 +158,5 @@ resource "azurerm_iothub_dps" "IOT" {
 
 
 */
-
-
-
-
-# Create a resource group
-module "rg" {
-    source = "./modules/rg"
-    name = var.name
-    location = var.location
-}
-
-# Create an Azure IoT Hub
-module "iot_hub" {
-  source = "./modules/iot_hub"
-  resourcegroup = module.rg.resource_group_name
-  location = module.rg.location_id
-}
-
-
-
-
 
 
